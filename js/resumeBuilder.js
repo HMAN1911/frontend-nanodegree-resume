@@ -1,9 +1,9 @@
 var bio = {
-	"name": "Harun Aydin",
+	"name": "Harry Aydin",
 	"role": "Web Developer",
 	"contacts": {
-		"mobile": "0433 424 321",
-		"email": "aydin.harun.23@gmail.com",
+		"mobile": "04XX 4XX 321",
+		"email": "XXXXX.23@gmail.com",
 		"github": "https://github.com/HMAN1911",
 		"twitter": "@twitter",
 		"location": "Melbourne",
