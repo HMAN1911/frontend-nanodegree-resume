@@ -26,7 +26,7 @@ var HTMLlocation = '<li class="flex-item"><span class="orange-text">location</sp
 var HTMLbioPic = '<img src="%data%" class="biopic">';
 var HTMLwelcomeMsg = '<span class="welcome-message">%data%</span>';
 
-var HTMLskillsStart = '<h3 id="skills-h3">Skills at a Glance:</h3><ul id="skills" class="flex-box"></ul>';
+var HTMLskillsStart = '<h3 id="skills-h3">Skills at a Glance</h3><ul id="skills" class="flex-box"></ul>';
 var HTMLskills = '<li class="flex-item"><span class="white-text">%data%</span></li>';
 
 var HTMLworkStart = '<div class="work-entry"></div>';
@@ -98,7 +98,7 @@ var map;    // declares a global map variable
 function initializeMap() {
 
   var locations;
-
+	var prevInfowindow = false;
   var mapOptions = {
     disableDefaultUI: true
   };
@@ -119,19 +119,28 @@ function initializeMap() {
     // initializes an empty array
     var locations = [];
 
-    // adds the single location property from bio to the locations array
-    locations.push(bio.contacts.location);
+	  // adds the single location property from bio to the locations array
+	  locations.push({
+		  location: bio.contacts.location,
+		  name: bio.name
+	  });
 
     // iterates through school locations and appends each location to
     // the locations array
     for (var school in education.schools) {
-      locations.push(education.schools[school].location);
+	    locations.push({
+		    location: education.schools[school].location,
+		    name: education.schools[school].name
+	    });
     }
 
     // iterates through work locations and appends each location to
     // the locations array
     for (var job in work.jobs) {
-      locations.push(work.jobs[job].location);
+	    locations.push({
+		    location: work.jobs[job].location,
+		    name: work.jobs[job].title
+	    });
     }
 
     return locations;
@@ -149,24 +158,35 @@ function initializeMap() {
     var lon = placeData.geometry.location.lng();  // longitude from the place service
     var name = placeData.formatted_address;   // name of the place from the place service
     var bounds = window.mapBounds;            // current boundaries of the map window
-
     // marker is an object with additional data about the pin for a single location
     var marker = new google.maps.Marker({
       map: map,
       position: placeData.geometry.location,
       title: name
     });
+	  if (placeData.formatted_address === "Melbourne VIC, Australia") {
+
+		  var infoWindowContent = "Melbourne Pin Details!";
+	  } else if (placeData.formatted_address === "Sydney NSW, Australia") {
+		  infoWindowContent = "Sydney Pin Details!"
+	  } else if (placeData !== "Melbourne Pin Details!" || "Sydney Pin Details!") {
+		  infoWindowContent = "I dont know where you are!"
+	  }
 
     // infoWindows are the little helper windows that open when you click
     // or hover over a pin on a map. They usually contain more information
     // about a location.
     var infoWindow = new google.maps.InfoWindow({
-      content: name
+	    content: infoWindowContent
     });
 
-    // hmmmm, I wonder what this is about...
     google.maps.event.addListener(marker, 'click', function() {
-      // your code goes here!
+	    if (prevInfowindow) {
+		    prevInfowindow.close();
+	    }
+	    prevInfowindow = infoWindow;
+	    infoWindow.open(map, marker);
+
     });
 
     // this is where the pin actually gets added to the map.
@@ -203,7 +223,7 @@ function initializeMap() {
 
       // the search request object
       var request = {
-        query: locations[place]
+	      query: locations[place].location
       };
 
       // Actually searches the Google Maps API for location data and runs the callback

@@ -5,7 +5,7 @@ var bio = {
 	"contacts": {
 		"mobile": "04XX 4XX 321",
 		"email": "XXXXX.23@gmail.com",
-		"github": "https://github.com/HMAN1911",
+		"github": "github.com/HMAN1911",
 		"twitter": "@twitter",
 		"location": "Melbourne",
 		"welcomeMessage": "Hello there!"
@@ -13,7 +13,7 @@ var bio = {
 	"skills": [
 		"Design", "Web Development", "Illustration"
 	],
-	"biopic": "images/fry.jpg",
+	"biopic": "images/obnix.jpg",
 	display: function () {
 
 		$("#header").prepend(HTMLheaderRole.replace("%data%", bio.role));
@@ -22,12 +22,16 @@ var bio = {
 		$("#topContacts").append(HTMLemail.replace("%data%", bio.contacts.email));
 		$("#topContacts").append(HTMLgithub.replace("%data%", bio.contacts.github));
 		$("#header").append(HTMLbioPic.replace("%data%", bio.biopic));
-		$("#header").append(HTMLwelcomeMsg.replace("%data%", bio.contacts.welcomeMessage));
+		//$("#header").append(HTMLwelcomeMsg.replace("%data%", bio.contacts.welcomeMessage));
 		//$("#topContacts").append(HTMLtwitter.replace("%data%", bio.contacts.twitter));
 		//$("#topContacts").append(HTMLlocation.replace("%data%", bio.contacts.location));
+		$("#footerContacts").append(HTMLmobile.replace("%data%", bio.contacts.mobile));
+		$("#footerContacts").append(HTMLemail.replace("%data%", bio.contacts.email));
+		$("#footerContacts").append(HTMLgithub.replace("%data%", bio.contacts.github));
 
 		$("#header").append(HTMLskillsStart);
 		for (skill in bio.skills) {
+			console.log(skill);
 			$("#skills:last").append(HTMLskills.replace("%data%", bio.skills[skill]));
 		}
 	}
