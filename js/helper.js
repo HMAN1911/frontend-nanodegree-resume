@@ -164,8 +164,8 @@ function initializeMap() {
       position: placeData.geometry.location,
       title: name
     });
+	  //this bit of code matches the pin location against the strings provided
 	  if (placeData.formatted_address === "Melbourne VIC, Australia") {
-
 		  var infoWindowContent = "Melbourne Pin Details!";
 	  } else if (placeData.formatted_address === "Sydney NSW, Australia") {
 		  infoWindowContent = "Sydney Pin Details!"
@@ -181,6 +181,7 @@ function initializeMap() {
     });
 
     google.maps.event.addListener(marker, 'click', function() {
+	    //this statement checks to see if another infowindow is open, and if it is, closes the previous one.
 	    if (prevInfowindow) {
 		    prevInfowindow.close();
 	    }
