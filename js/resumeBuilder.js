@@ -15,25 +15,19 @@ var bio = {
 	],
 	"biopic": "images/obnix.jpg",
 	display: function () {
-
 		$("#header").prepend(HTMLheaderRole.replace("%data%", bio.role));
 		$("#header").prepend(HTMLheaderName.replace("%data%", bio.name));
-		$("#topContacts").append(HTMLmobile.replace("%data%", bio.contacts.mobile));
-		$("#topContacts").append(HTMLemail.replace("%data%", bio.contacts.email));
-		$("#topContacts").append(HTMLgithub.replace("%data%", bio.contacts.github));
+		$("#topContacts, #footerContacts").append(HTMLmobile.replace("%data%", bio.contacts.mobile));
+		$("#topContacts, #footerContacts").append(HTMLemail.replace("%data%", bio.contacts.email));
+		$("#topContacts, #footerContacts").append(HTMLgithub.replace("%data%", bio.contacts.github));
 		$("#header").append(HTMLbioPic.replace("%data%", bio.biopic));
 		//$("#header").append(HTMLwelcomeMsg.replace("%data%", bio.contacts.welcomeMessage));
 		//$("#topContacts").append(HTMLtwitter.replace("%data%", bio.contacts.twitter));
 		//$("#topContacts").append(HTMLlocation.replace("%data%", bio.contacts.location));
-		$("#footerContacts").append(HTMLmobile.replace("%data%", bio.contacts.mobile));
-		$("#footerContacts").append(HTMLemail.replace("%data%", bio.contacts.email));
-		$("#footerContacts").append(HTMLgithub.replace("%data%", bio.contacts.github));
-
 		$("#header").append(HTMLskillsStart);
-		for (skill in bio.skills) {
-			console.log(skill);
-			$("#skills:last").append(HTMLskills.replace("%data%", bio.skills[skill]));
-		}
+		bio.skills.forEach(function (skill) {
+			$("#skills:last").append(HTMLskills.replace("%data%", skill));
+		});
 	}
 };
 
@@ -59,25 +53,22 @@ var education = {
 		}
 	],
 	displaySchools: function () {
-		for (school in education.schools) {
+		for (var school in education.schools) {
 			$("#education").append(HTMLschoolStart);
 			$(".education-entry:last").append(HTMLschoolName.replace("%data%", education.schools[school].name) + HTMLschoolDegree.replace("%data%", education.schools[school].degree));
 			$(".education-entry:last").append(HTMLschoolDates.replace("%data%", education.schools[school].dates));
 			$(".education-entry:last").append(HTMLschoolLocation.replace("%data%", education.schools[school].location));
 			$(".education-entry:last").append(HTMLschoolMajor.replace("%data%", education.schools[school].majors));
 		}
-		;
 	},
 	displayOnlineCourses: function () {
-		for (course in education.onlineCourses) {
-
+		for (var course in education.onlineCourses) {
 			$("#education").append(HTMLonlineClasses);
 			$("#education").append(HTMLschoolStart);
 			$(".education-entry:last").append(HTMLonlineTitle.replace("%data%", education.onlineCourses[course].title) + HTMLonlineSchool.replace("%data%", education.onlineCourses[course].school));
 			$(".education-entry:last").append(HTMLonlineDates.replace("%data%", education.onlineCourses[course].date));
 			$(".education-entry:last").append(HTMLonlineURL.replace("%data%", education.onlineCourses[course].url));
 		}
-		;
 	}
 };
 
@@ -99,7 +90,7 @@ var work = {
 		}
 	],
 	display: function () {
-		for (job in work.jobs) {
+		for (var job in work.jobs) {
 			$("#workExperience").append(HTMLworkStart);
 			$(".work-entry:last").append(HTMLworkEmployer.replace("%data%", work.jobs[job].employer + HTMLworkTitle.replace("%data%", work.jobs[job].title)));
 			$(".work-entry:last").append(HTMLworkDates.replace("%data%", work.jobs[job].dates));
@@ -121,7 +112,7 @@ var projects = {
 		}
 	],
 	display: function () {
-		for (project in projects.projects) {
+		for (var project in projects.projects) {
 			$("#projects").append(HTMLprojectStart);
 			$(".project-entry:last").append(HTMLprojectTitle.replace("%data%", projects.projects[project].title));
 			$(".project-entry:last").append(HTMLprojectDates.replace("%data%", projects.projects[project].dates));
@@ -147,13 +138,12 @@ $("#mapDiv").append(googleMap);
 function locationizer(work_obj) {
 	var locationArray = [];
 
-	for (job in work_obj.jobs) {
+	for (var job in work_obj.jobs) {
 		var newLocation = work_obj.jobs[job].location;
 		locationArray.push(newLocation);
 	}
 	return locationArray;
 }
-
 
 function inName(name) {
 	name = name.trim().split(" ");
